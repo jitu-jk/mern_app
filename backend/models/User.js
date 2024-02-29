@@ -5,15 +5,17 @@ const UserSchema = new Schema({
         type:String,
         required:true
     },
-    location:{
+    password:{
         type:String,
         required:true
     },
+  
     email:{
         type:String,
         required:true
     },
-    password:{
+ 
+    location:{
         type:String,
         required:true
     },
