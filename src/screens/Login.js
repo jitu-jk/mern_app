@@ -19,7 +19,9 @@ export default function Login() {
     if (!json.success) {
       alert("Invalid credentials");
     }
-    if (!json.success) {
+    if (json.success) {
+      localStorage.setItem("authToken",json.authToken);
+      console.log(localStorage.getItem("authToken"))
       navigate("/");
     }
   };
