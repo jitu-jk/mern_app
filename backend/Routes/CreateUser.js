@@ -8,7 +8,7 @@
  body('name').isLength({ min: 5 }),
  body('password','incorrect password').isLength({ min: 5 }),
  body('email').isEmail(),],
- async(req,res)=>{
+ async(req,res)=>{ 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -16,19 +16,42 @@
 
         
 
-    try{
+     try{
         await User.create({
-            name:"jitesh",
-            password:"123456",
-            email:"jitesj123@gmail.com",
-            location:"punjab"
-        });
-        res.json({sucess:true});
+            name:req.body.name,
+            password:req.body.password,
+            email:req.body.email,
+            location:req.body.location
+        })
+        .then(res.json({sucess:true}));
     }
     catch(error){
         console.log(error);
         res.json({sucess:false});
     }
     });
+
+
+    router.post("/loginuser",[
+      body('email').isEmail(),
+ body('password','incorrect password').isLength({ min: 5 })],
+    async(req,res)=>{
+      let email = req.body.email ;
+      try {
+           let userData = await User.findOne({email});
+           if(!userData){
+            return res.status(400).json({errors: "try login with correct creditential"})
+           } 
+           if(req.body.password !== userData.password){
+            return res.status(400).json({errors: "try login with correct creditential"})
+           }
+           return res.json({sucess:true})
+          }catch(error){
+            console.log(error)
+            res.json({sucess:false});
+           }
+          
+           })
+          
   module.exports = router;
 
